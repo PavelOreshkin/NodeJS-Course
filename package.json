@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "This repository from NodeJS course.",
   "main": "index.js",
+  "engines" : {
+    "node" : "12.13.1"
+  },
   "scripts": {
-    "task1": "nodemon --exec babel-node ./task1/task1.js",
-    "task2": "nodemon --exec babel-node ./task2/task2.js"
+    "task1": "nodemon --exec babel-node ./task1",
+    "task2": "nodemon --exec babel-node ./task2"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ import fs from 'fs';
 import csv from 'csvtojson';
 
 const filename = "example.csv";
-const csvFilePath = `${__dirname}/${filename}`;
+const csvFilePath = `${__dirname}/csv/${filename}`;
 
 csv()
   .fromFile(csvFilePath)
