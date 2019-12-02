@@ -1,5 +1,5 @@
-const csv = require('csvtojson');
-const fs = require('fs');
+import fs from 'fs';
+import csv from 'csvtojson';
 
 const filename = "example.csv";
 const csvFilePath = `${__dirname}/${filename}`;
@@ -15,5 +15,5 @@ csv()
         console.error(error);
       }
     })
-    stream.end();
+    stream.end(null, () => console.log('>>> file is recording'));
   });
