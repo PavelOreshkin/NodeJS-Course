@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "This repository from NodeJS course.",
   "main": "index.js",
-  "engines" : {
-    "node" : "12.13.1"
+  "engines": {
+    "node": "12.13.0"
   },
   "scripts": {
     "task1": "nodemon --exec babel-node ./task1",
