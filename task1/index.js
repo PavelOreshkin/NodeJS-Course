@@ -8,15 +8,3 @@ process.stdin.on('data', (input) => {
   process.stdout.write(`>>> Your revers string is: `);
   process.stdout.write(`${reversMessage} \n\n`);
 });
-
-// process.stdin.on('data', (input2) => {
-//   process.stdout.write(`>>> To exit write 'lol'`);
-//   if (String(input2) === 'lol') {
-//     process.exit()
-//   }
-// });
-
-// process.stdout.write('>>> For exit say "exit":');
-// if (String(input) == 'exit') {
-//   process.exit()
-// }
