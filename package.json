@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "This repository from NodeJS course.",
   "main": "index.js",
+  "engines": {
+    "node": "12.13.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "nodemon task1.js"
+    "task1": "nodemon --exec babel-node ./task1",
+    "task2": "nodemon --exec babel-node ./task2"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,13 @@
   },
   "homepage": "https://github.com/PavelOreshkin/NodeJS-Course#readme",
   "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
     "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
   }
 }
