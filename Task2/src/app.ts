@@ -1,7 +1,8 @@
 import express, { Router, Application, Request, Response, NextFunction } from 'express';
-// import { db } from './db/db';
-import { deleteUser, addUser, isUserExist } from './helpers';
-import { RequestBody } from './types';
+import { deleteUser, addUser, isUserExist, getUserById, editUser } from './helpers';
+import { RequestBody, ValidationError } from './types';
+import { schema } from './validate';
+
 const app: Application = express();
 const router: Router = express.Router();
 
@@ -11,30 +12,45 @@ app.use(express.json());
 app.use('/', router);
 
 router.param('id', (req: Request, res: Response, next: NextFunction, id: string) => {
-  if(isUserExist(id)) {
+  if (isUserExist(id)) {
     next();
   } else {
     res.status(404).json({ message: `User with id=${id} not found` });
   }
 })
 
-//getUserById :id
-// router.get('/user/:id', (req: Request, res: Response, next: NextFunction) => {
-//   console.log('req: ', req.body);
-//   res.json({ answer: 'all good get' });
-// })
+router.get('/user/:id', (req: Request, res: Response, next: NextFunction) => {
+  const id: string = req.params.id;
+  res.json({ user: getUserById(id) });
+})
 
 router.post('/user', (req: Request, res: Response, next: NextFunction) => {
   const { login, password, age }: RequestBody = req.body;
-  addUser(login, password, age)
-  res.status(201).send();
+  schema.validateAsync({ login, password, age })
+    .then(() => {
+      addUser(login, password, age)
+      res.status(201).send();
+    })
+    .catch((err: ValidationError) => {
+      console.log('err: ', err);
+      res.status(400).json({ message: err.message })
+    });
 })
 
-//editUser :id
-// router.put('/user/:id', (req: Request, res: Response, next: NextFunction) => {
-//   console.log('req: ', req.body);
-//   res.json({ answer: 'all good put' });
-// })
+router.put('/user/:id', (req: Request, res: Response, next: NextFunction) => {
+  const { login, password, age }: RequestBody = req.body;
+  const id: string = req.params.id;
+
+  schema.validateAsync({ login, password, age })
+    .then(() => {
+      editUser(id, login, password, age);
+      res.status(200).send();
+    })
+    .catch((err: ValidationError) => {
+      console.log('err: ', err);
+      res.status(400).json({ message: err.message })
+    });
+})
 
 router.delete('/user/:id', (req: Request, res: Response, next: NextFunction) => {
   const id: string = req.params.id;
@@ -42,5 +58,12 @@ router.delete('/user/:id', (req: Request, res: Response, next: NextFunction) => 
   res.status(200).send();
 })
 
+// TODO
 // getAutoSuggestUsers(loginSubstring, limit)
 // sortet by login and filtered by loginSubstring
+
+// TODO validation
+// DONE • all fields are required; 
+// ???? • login validationis required;
+//      • password must contain letters and numbers;
+// DONE • user’s age must be between 4 and 130.
