@@ -61,9 +61,3 @@ router.delete('/user/:id', (req: Request, res: Response, next: NextFunction) => 
 // TODO
 // getAutoSuggestUsers(loginSubstring, limit)
 // sortet by login and filtered by loginSubstring
-
-// TODO validation
-// DONE • all fields are required; 
-// ???? • login validationis required;
-//      • password must contain letters and numbers;
-// DONE • user’s age must be between 4 and 130.
