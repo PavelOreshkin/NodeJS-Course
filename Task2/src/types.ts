@@ -13,8 +13,5 @@ export type RequestBody = {
 };
 
 export type ValidationError = {
-  message: string,
-  path: string[],
-  type: string,
-  context: object
+  message: object,
 };
