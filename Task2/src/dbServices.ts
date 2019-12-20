@@ -8,11 +8,13 @@ export const getNewId = (): string => {
     return String(currentId + 1);
 };
 
-export const addUser = (login: string, password: string, age: number) => {
-    db.push({ login, password, age, id: getNewId(), isDeleted: false });
+export const addUserFromDb = (login: string, password: string, age: number) => {
+    const id = getNewId();
+    db.push({ login, password, age, id, isDeleted: false });
+    return id;
 };
 
-export const editUser = (id: string, login: string, password: string, age: number) => {
+export const editUserFromDb = (id: string, login: string, password: string, age: number) => {
     db.forEach(item => {
         if (item.id !== id) return;
         if (login) item.login = login;
@@ -21,22 +23,22 @@ export const editUser = (id: string, login: string, password: string, age: numbe
     });
 };
 
-export const deleteUser = (id: string) => {
+export const deleteUserFromDb = (id: string) => {
     db.forEach(item => {
         if (item.id === id) item.isDeleted = true;
     });
 };
 
-export const isUserExist = (id: string): boolean => {
+export const isUserExistFromDb = (id: string): boolean => {
     const index = db.findIndex(item => item.id === id);
     return index >= 0;
 };
 
-export const getUserById = (id: string): object => {
+export const getUserByIdFromDb = (id: string): object => {
     return db[db.findIndex(item => item.id === id)];
 };
 
-export const getAutoSuggestUsers = (loginSubstring: string, limit: string) => {
+export const getAutoSuggestUsersFromDb = (loginSubstring: string, limit: string) => {
     const regexp = new RegExp(loginSubstring, 'i');
 
     return db

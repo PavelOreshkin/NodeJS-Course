@@ -11,7 +11,3 @@ export type RequestBody = {
   password: string;
   age: number;
 };
-
-export type ValidationError = {
-  message: object,
-};
