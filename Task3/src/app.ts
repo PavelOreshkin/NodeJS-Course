@@ -1,17 +1,35 @@
-import express, { Router, Application } from 'express';
-import { getUserById, getAutoSuggestUsers, addUser, editUser, deleteUser, isUserExist } from './appServices';
+// import express, { Router, Application } from 'express';
+// import { getUserById, getAutoSuggestUsers, addUser, editUser, deleteUser, isUserExist } from './appServices';
 
-const app: Application = express();
-const router: Router = express.Router();
+const Sequelize = require('sequelize');
 
-app.listen(3000, () => console.log('server running'));
+// Option 1: Passing parameters separately
+// const sequelize = new Sequelize('database', 'username', 'password', {
+//   host: 'localhost',
+//   dialect: 'postgres'
+// });
 
-app.use(express.json());
-app.use('/', router);
+// Option 2: Passing a connection URI
+const sequelize = new Sequelize('postgres://postgres:@localhost:5432/task3');
 
-router.param('id', isUserExist);
-router.get('/user/:id', getUserById);
-router.get('/userSuggest', getAutoSuggestUsers);
-router.post('/user', addUser);
-router.put('/user/:id', editUser);
-router.delete('/user/:id', deleteUser);
+sequelize.authenticate()
+    .then(() => console.log('okey'));
+
+
+// const app: Application = express();
+// const router: Router = express.Router();
+
+// app.listen(3000, () => console.log('server running'));
+
+// app.use(express.json());
+// app.use('/', router);
+
+// router.param('id', isUserExist);
+// router.get('/', (req: any, res: any) => {
+//     res.end('<h1>Hellow Paul</h1>');
+// });
+// router.get('/user/:id', getUserById);
+// router.get('/userSuggest', getAutoSuggestUsers);
+// router.post('/user', addUser);
+// router.put('/user/:id', editUser);
+// router.delete('/user/:id', deleteUser);
