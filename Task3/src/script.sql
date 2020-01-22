@@ -4,7 +4,7 @@ CREATE TABLE "userSchema".users
     login character varying NOT NULL,
     password character varying NOT NULL,
     age integer NOT NULL,
-    "isDeleted" boolean NOT NULL DEFAULT false,
+    "isDeleted" boolean DEFAULT false,
     PRIMARY KEY (id)
 );
 

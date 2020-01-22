@@ -1,4 +1,5 @@
 import { db } from './db/db';
+import { UsersTable } from './pg';
 
 export const getNewId = (): string => {
     const currentId = db.reduce((prev, item) => {
@@ -9,10 +10,16 @@ export const getNewId = (): string => {
 };
 
 export const addUserFromDb = (login: string, password: string, age: number) => {
-    const id = getNewId();
-    db.push({ login, password, age, id, isDeleted: false });
-    return id;
+    return UsersTable.create({ login, password, age }).then((user: any) => user.dataValues.id);
 };
+
+// export const addUserFromDb = async (login: string, password: string, age: number) => {
+//     try {
+//         await UsersTable.create({ login, password, age })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 export const editUserFromDb = (id: string, login: string, password: string, age: number) => {
     db.forEach(item => {
