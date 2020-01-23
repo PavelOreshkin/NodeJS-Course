@@ -1,50 +1,35 @@
 import { db } from './db/db';
 import { UsersTable } from './pg';
 
-export const getNewId = (): string => {
-    const currentId = db.reduce((prev, item) => {
-        const id = Number(item.id);
-        return (id > prev) ? id : prev;
-    }, 0);
-    return String(currentId + 1);
-};
+// YEEEEEEEEEEEEEEEEEEES
+export const addUserFromDb = (login: string, password: string, age: number): Promise<number> => (
+    UsersTable.create({ login, password, age }).then((user: any) => user.dataValues.id)
+);
 
-export const addUserFromDb = (login: string, password: string, age: number) => {
-    return UsersTable.create({ login, password, age }).then((user: any) => user.dataValues.id);
-};
+// YEEEEEEEEEEEEEEEEEEES
+export const editUserFromDb = (id: string, login: string, password: string, age: number) => (
+    UsersTable.update(
+        { login, password, age },
+        { where: { id } }
+    )
+        .then((result: Array<number>) => result)
+);
 
-// export const addUserFromDb = async (login: string, password: string, age: number) => {
-//     try {
-//         await UsersTable.create({ login, password, age })
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
+// YEEEEEEEEEEEEEEEEEEES
+export const deleteUserFromDb = (id: string) => (
+    UsersTable.update(
+        { isDeleted: true },
+        { where: { id } }
+    )
+        .then((result: Array<number>) => result)
+);
 
-export const editUserFromDb = (id: string, login: string, password: string, age: number) => {
-    db.forEach(item => {
-        if (item.id !== id) return;
-        if (login) item.login = login;
-        if (password) item.password = password;
-        if (age) item.age = age;
-    });
-};
+// YEEEEEEEEEEEEEEEEEEES
+export const getUserByIdFromDb = (id: string): Promise<object> => (
+    UsersTable.findByPk(id).then((user: any) => user.dataValues)
+);
 
-export const deleteUserFromDb = (id: string) => {
-    db.forEach(item => {
-        if (item.id === id) item.isDeleted = true;
-    });
-};
-
-export const isUserExistFromDb = (id: string): boolean => {
-    const index = db.findIndex(item => item.id === id);
-    return index >= 0;
-};
-
-export const getUserByIdFromDb = (id: string): object => {
-    return db[db.findIndex(item => item.id === id)];
-};
-
+// NOT
 export const getAutoSuggestUsersFromDb = (loginSubstring: string, limit: string) => {
     const regexp = new RegExp(loginSubstring, 'i');
 
