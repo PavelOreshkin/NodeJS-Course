@@ -1,6 +1,6 @@
-import { Sequelize, MyServer } from '.';
+import { Sequelize, MyServer } from '../data-access';
 
-export const UsersModel: any = MyServer.define('user', {
+export const UsersModel = MyServer.define('user', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
