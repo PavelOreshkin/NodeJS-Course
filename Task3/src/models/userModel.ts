@@ -1,10 +1,6 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://postgres:qwe@localhost:5432/task3');
-export const Op = Sequelize.Op;
+import { Sequelize, MyServer } from '.';
 
-sequelize.authenticate().then(() => console.log('db success connected'));
-
-export const UsersTable: any = sequelize.define('user', {
+export const UsersModel: any = MyServer.define('user', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

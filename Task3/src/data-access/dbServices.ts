@@ -1,11 +1,12 @@
-import { UsersTable, Op } from './pg';
+import { UsersModel } from '../models/userModel';
+import { Op } from '../models';
 
 export const addUserFromDb = (login: string, password: string, age: number): Promise<number> => (
-    UsersTable.create({ login, password, age }).then((user: any) => user.dataValues.id)
+    UsersModel.create({ login, password, age }).then((user: any) => user.dataValues.id)
 );
 
 export const editUserFromDb = (id: string, login: string, password: string, age: number) => (
-    UsersTable.update(
+    UsersModel.update(
         { login, password, age },
         { where: { id } }
     )
@@ -13,7 +14,7 @@ export const editUserFromDb = (id: string, login: string, password: string, age:
 );
 
 export const deleteUserFromDb = (id: string) => (
-    UsersTable.update(
+    UsersModel.update(
         { isDeleted: true },
         { where: { id } }
     )
@@ -21,11 +22,11 @@ export const deleteUserFromDb = (id: string) => (
 );
 
 export const getUserByIdFromDb = (id: string): Promise<object> => (
-    UsersTable.findByPk(id).then((user: any) => user.dataValues)
+    UsersModel.findByPk(id).then((user: any) => user.dataValues)
 );
 
 export const getAutoSuggestUsersFromDb = (loginSubstring: string, limit: string) => (
-    UsersTable.findAll({
+    UsersModel.findAll({
         where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
         limit
     }).then((users: any) => (

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserByIdFromDb, getAutoSuggestUsersFromDb, addUserFromDb, editUserFromDb, deleteUserFromDb /* , isUserExistFromDb */ } from './dbServices';
+import { getUserByIdFromDb, getAutoSuggestUsersFromDb, addUserFromDb, editUserFromDb, deleteUserFromDb } from '../data-access/dbServices';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { RequestBody } from './types';
-import { schema } from './validate';
-import { UsersTable } from './pg';
+import { RequestBody } from '../types/types';
+import { schema } from '../validations/validations';
+import { UsersModel } from '../models/userModel';
 
 export const isUserExist = (_req: Request, res: Response, next: NextFunction, id: string) => {
-    UsersTable.count({ where: { id } })
+    UsersModel.count({ where: { id } })
         .then((count: number) => {
             if (count !== 0) {
                 next();
