@@ -5,7 +5,6 @@ import { RequestBody } from './types';
 import { schema } from './validate';
 import { UsersTable } from './pg';
 
-// YEEEEEEEEEEEEEEEEEEES
 export const isUserExist = (_req: Request, res: Response, next: NextFunction, id: string) => {
     UsersTable.count({ where: { id } })
         .then((count: number) => {
@@ -17,19 +16,18 @@ export const isUserExist = (_req: Request, res: Response, next: NextFunction, id
         });
 };
 
-// YEEEEEEEEEEEEEEEEEEES
 export const getUserById = (req: Request, res: Response) => {
     const id: string = req.params.id;
     getUserByIdFromDb(id).then((user: object) => res.json({ user }));
 };
 
-// NOT
 export const getAutoSuggestUsers = (req: Request, res: Response) => {
     const { loginSubstring, limit }: ParamsDictionary = req.query;
-    res.json({ users: getAutoSuggestUsersFromDb(loginSubstring, limit) });
+    getAutoSuggestUsersFromDb(loginSubstring, limit).then((users: any) => {
+        res.json({ users });
+    });
 };
 
-// YEEEEEEEEEEEEEEEEEEES
 export const addUser = async (req: Request, res: Response) => {
     const { login, password, age }: RequestBody = req.body;
 
@@ -42,7 +40,6 @@ export const addUser = async (req: Request, res: Response) => {
     }
 };
 
-// YEEEEEEEEEEEEEEEEEEES
 export const editUser = async (req: Request, res: Response) => {
     const { login, password, age }: RequestBody = req.body;
     const id: string = req.params.id;
@@ -60,7 +57,6 @@ export const editUser = async (req: Request, res: Response) => {
     }
 };
 
-// YEEEEEEEEEEEEEEEEEEES
 export const deleteUser = (req: Request, res: Response) => {
     const id: string = req.params.id;
 

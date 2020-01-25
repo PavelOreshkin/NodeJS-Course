@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('postgres://postgres:qwe@localhost:5432/task3');
+export const Op = Sequelize.Op;
 
-sequelize.authenticate().then(() => console.log('success connected'));
+sequelize.authenticate().then(() => console.log('db success connected'));
 
 export const UsersTable: any = sequelize.define('user', {
     id: {
@@ -29,7 +30,3 @@ export const UsersTable: any = sequelize.define('user', {
     timestamps: false,
     schema: 'userSchema'
 });
-
-// UsersTable.findAll().then((users: any) => {
-//     users.map((user: any) => console.log(user.toJSON()));
-// });
