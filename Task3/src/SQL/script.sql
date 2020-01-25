@@ -30,3 +30,11 @@ INSERT INTO "userSchema".users(
 INSERT INTO "userSchema".users(
 	login, password, age)
 	VALUES ('Svyatomir', 'overkiller9000', 18);
+	
+INSERT INTO "userSchema".users(
+	login, password, age)
+	VALUES ('Paul1', 'passPaul1', 11);
+	
+INSERT INTO "userSchema".users(
+	login, password, age)
+	VALUES ('Paul2', 'passPaul2', 22);
