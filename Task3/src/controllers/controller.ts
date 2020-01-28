@@ -1,18 +1,13 @@
-import express, { Router, Request, Response, NextFunction } from 'express';
-import { app } from '../app';
+import { Request, Response, NextFunction } from 'express';
 import UserService from '../services/userServices';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { schema } from '../validations/validations';
 import { RequestBody } from '../types/types';
-
-const router: Router = express.Router();
+import { router } from '../app';
 
 export const UserController = () => {
-    app.use(express.json());
-    app.use('/', router);
-
     router.param('id', async (_req: Request, res: Response, next: NextFunction, id: string) => {
-        const success = await UserService.isUserExist(id);
+        const success = await UserService.isUserExist(Number(id));
         if (success) {
             next();
             return;
@@ -21,7 +16,7 @@ export const UserController = () => {
     });
 
     router.get('/user/:id', async (req: Request, res: Response) => {
-        const id: string = req.params.id;
+        const id: number = Number(req.params.id);
         const user = await UserService.getUserById(id);
         res.json({ user });
     });
@@ -45,7 +40,7 @@ export const UserController = () => {
 
     router.put('/user/:id', async (req: Request, res: Response) => {
         const { login, password, age }: RequestBody = req.body;
-        const id: string = req.params.id;
+        const id: number = Number(req.params.id);
         try {
             await schema.validateAsync({ login, password, age });
         } catch (err) {
@@ -60,7 +55,7 @@ export const UserController = () => {
     });
 
     router.delete('/user/:id', async (req: Request, res: Response) => {
-        const id: string = req.params.id;
+        const id: number = Number(req.params.id);
         const success = await UserService.deleteUser(id);
         if (success) {
             return res.status(200).json({ message: 'user deleted success' });
