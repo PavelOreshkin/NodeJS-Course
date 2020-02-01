@@ -2,21 +2,23 @@ import { UsersModel } from '../models/userModel';
 import { Op } from '../data-access';
 
 export default class UserService {
-    static async getUserById(id: number): Promise<object> {
-        const user = await UsersModel.findByPk(id);
-        return user.dataValues;
+    static async getUsers(): Promise<object> {
+        return await UsersModel.findAll();
     }
 
-    static async getAutoSuggestUsers(loginSubstring: string, limit: string) {
-        const users = await UsersModel.findAll({
+    static async getUserById(id: number): Promise<object> {
+        return await UsersModel.findByPk(id);
+    }
+
+    static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<string> {
+        return await UsersModel.findAll({
             where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
             limit
         });
-        return users.dataValues;
     }
 
     static async deleteUser(id: number): Promise<boolean> {
-        const result = await UsersModel.update(
+        const result: Array<number> = await UsersModel.update(
             { isDeleted: true },
             { where: { id } }
         );
@@ -24,12 +26,12 @@ export default class UserService {
     }
 
     static async addUser(login: string, password: string, age: number): Promise<string> {
-        const user = await UsersModel.create({ login, password, age });
-        return user.dataValues.id;
+        const user: { id: string } = await UsersModel.create({ login, password, age });
+        return user.id;
     }
 
     static async editUser(id: number, login: string, password: string, age: number): Promise<boolean> {
-        const result = await UsersModel.update(
+        const result: Array<number> = await UsersModel.update(
             { login, password, age },
             { where: { id } }
         );
@@ -37,7 +39,7 @@ export default class UserService {
     }
 
     static async isUserExist(id: number): Promise<boolean> {
-        const count = await UsersModel.count({ where: { id } });
+        const count: number = await UsersModel.count({ where: { id } });
         return (count !== 0);
     }
 }

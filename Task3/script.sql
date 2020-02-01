@@ -1,3 +1,4 @@
+CREATE SCHEMA "userSchema";
 CREATE TABLE "userSchema".users
 (
     id SERIAL,
