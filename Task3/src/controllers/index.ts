@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, Router } from 'express';
 import UserService from '../services/userServices';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { UserDTO } from '../types';
-import { validation } from '../validations';
+import { validationMiddleware } from '../validations';
 
 export const UserController = (router: Router): void => {
     router.param('id', async (_req: Request, res: Response, next: NextFunction, id: string): Promise<void> => {
@@ -20,18 +20,13 @@ export const UserController = (router: Router): void => {
         res.json({ user });
     });
 
-    router.get('/user', async (req: Request, res: Response): Promise<void> => {
-        const users: Object = await UserService.getUsers();
-        res.json({ users });
-    });
-
-    router.get('/userSuggest', async (req: Request, res: Response): Promise<void> => {
+    router.get('/users', async (req: Request, res: Response): Promise<void> => {
         const { loginSubstring, limit }: ParamsDictionary = req.query;
         const users: Object = await UserService.getAutoSuggestUsers(loginSubstring, Number(limit));
         res.json({ users });
     });
 
-    router.post('/user', validation,
+    router.post('/user', validationMiddleware,
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: string = await UserService.addUser(login, password, age);
@@ -39,7 +34,7 @@ export const UserController = (router: Router): void => {
         }
     );
 
-    router.put('/user/:id', validation,
+    router.put('/user/:id', validationMiddleware,
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: number = Number(req.params.id);

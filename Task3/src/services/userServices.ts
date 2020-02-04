@@ -11,10 +11,13 @@ export default class UserService {
     }
 
     static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<string> {
-        return await UsersModel.findAll({
-            where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
-            limit
-        });
+        if (loginSubstring) {
+            return await UsersModel.findAll({
+                where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
+                limit: limit || null
+            });
+        }
+        return await UsersModel.findAll();
     }
 
     static async deleteUser(id: number): Promise<boolean> {

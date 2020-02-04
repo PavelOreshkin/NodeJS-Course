@@ -3,7 +3,7 @@ import { addUserSchema, editUserSchema } from '../validations/userSchemes';
 import { methods } from '../constants';
 import { UserDTO } from '../types';
 
-export const validation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const validationMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { login, password, age }: UserDTO = req.body;
     try {
         if (req.method === methods.POST) {
