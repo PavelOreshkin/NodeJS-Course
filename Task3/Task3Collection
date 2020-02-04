@@ -11,33 +11,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/user",
+					"raw": "http://localhost:3000/users?loginSubstring=pau&limit=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"user"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getAutoSuggestUser",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/userSuggest?loginSubstring=pau&limit=3",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"userSuggest"
+						"users"
 					],
 					"query": [
 						{
@@ -46,7 +27,7 @@
 						},
 						{
 							"key": "limit",
-							"value": "3"
+							"value": "2"
 						}
 					]
 				}
