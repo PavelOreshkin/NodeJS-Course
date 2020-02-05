@@ -3,6 +3,7 @@ import UserService from '../services/userServices';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { UserDTO } from '../types';
 import { validationMiddleware } from '../validations';
+import { addUserSchema, editUserSchema } from '../validations/userSchemes';
 
 export const UserController = (router: Router): void => {
     router.param('id', async (_req: Request, res: Response, next: NextFunction, id: string): Promise<void> => {
@@ -26,7 +27,7 @@ export const UserController = (router: Router): void => {
         res.json({ users });
     });
 
-    router.post('/user', validationMiddleware,
+    router.post('/user', (req: Request, res: Response, next: NextFunction) => validationMiddleware(req, res, next, addUserSchema),
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: string = await UserService.addUser(login, password, age);
@@ -34,7 +35,7 @@ export const UserController = (router: Router): void => {
         }
     );
 
-    router.put('/user/:id', validationMiddleware,
+    router.put('/user/:id', (req: Request, res: Response, next: NextFunction) => validationMiddleware(req, res, next, editUserSchema),
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: number = Number(req.params.id);
