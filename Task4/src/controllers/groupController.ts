@@ -1,6 +1,6 @@
 import { Request, Response, /* NextFunction,*/ Router } from 'express';
 // import UserService from '../services/userServices';
-// import { ParamsDictionary } from 'express-serve-static-core';
+import { ParamsDictionary } from 'express-serve-static-core';
 // import { validation } from '../validations';
 import GroupService from '../services/groupServices';
 import { GroupDTO } from 'groupTypes';
@@ -21,11 +21,11 @@ export const GroupController = (router: Router): void => {
         res.json({ group });
     });
 
-    // router.get('/users', async (req: Request, res: Response): Promise<void> => {
-    //     const { loginSubstring, limit }: ParamsDictionary = req.query;
-    //     const users: Object = await UserService.getAutoSuggestUsers(loginSubstring, Number(limit));
-    //     res.json({ users });
-    // });
+    router.get('/groups', async (req: Request, res: Response): Promise<void> => {
+        const { groupSubstring, limit }: ParamsDictionary = req.query;
+        const groups: Object = await GroupService.getAllGroups(groupSubstring, Number(limit));
+        res.json({ groups });
+    });
 
     router.post('/group', // TODO ADD VALIDATION FOR PERMISSION
         async (req: Request, res: Response): Promise<void> => {
@@ -48,13 +48,13 @@ export const GroupController = (router: Router): void => {
         }
     );
 
-    // router.delete('/user/:id', async (req: Request, res: Response): Promise<void> => {
-    //     const id: number = Number(req.params.id);
-    //     const success: boolean = await UserService.deleteUser(id);
-    //     if (success) {
-    //         res.status(200).json({ message: 'user deleted success' });
-    //         return;
-    //     }
-    //     res.status(400).json({ message: 'something went wrong' });
-    // });
+    router.delete('/group/:id', async (req: Request, res: Response): Promise<void> => {
+        const id: number = Number(req.params.id);
+        const success: boolean = await GroupService.deleteGroup(id);
+        if (success) {
+            res.status(200).json({ message: 'group deleted success' });
+            return;
+        }
+        res.status(400).json({ message: 'something went wrong' });
+    });
 };

@@ -1,7 +1,7 @@
 import { Sequelize, MyServer } from '../data-access';
 import { GroupModelStatic } from 'groupTypes';
 
-export const GroupModel = <GroupModelStatic>MyServer.define('group', {
+export const GroupModel = /* <GroupModelStatic> */ MyServer.define('group', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -20,3 +20,12 @@ export const GroupModel = <GroupModelStatic>MyServer.define('group', {
     timestamps: false,
     schema: 'groupSchema'
 });
+
+GroupModel.associate = (models: any) => {
+    GroupModel.belongsToMany(models.UsersModel, {
+        through: 'GroupModel',
+        as: 'users',
+        foreignKey: 'userId',
+        otherKey: 'groupId'
+    });
+};

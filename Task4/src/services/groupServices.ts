@@ -1,4 +1,4 @@
-// import { Op } from '../data-access';
+import { Op } from '../data-access';
 import { GroupModel } from '../models/groupModel';
 
 export default class GroupService {
@@ -6,23 +6,22 @@ export default class GroupService {
         return await GroupModel.findByPk(id);
     }
 
-    // static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<string> {
-    //     if (loginSubstring) {
-    //         return await UsersModel.findAll({
-    //             where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
-    //             limit: limit || null
-    //         });
-    //     }
-    //     return await UsersModel.findAll();
-    // }
+    static async getAllGroups(groupSubstring: string, limit: number): Promise<string> {
+        if (groupSubstring) {
+            return await GroupModel.findAll({
+                where: { name: { [Op.iLike]: `%${groupSubstring}%` } },
+                limit: limit || null
+            });
+        }
+        return await GroupModel.findAll();
+    }
 
-    // static async deleteUser(id: number): Promise<boolean> {
-    //     const result: Array<number> = await UsersModel.update(
-    //         { isDeleted: true },
-    //         { where: { id } }
-    //     );
-    //     return (result[0] !== 0);
-    // }
+    static async deleteGroup(id: number): Promise<boolean> {
+        const result: number = await GroupModel.destroy(
+            { where: { id } }
+        );
+        return result > 0;
+    }
 
     static async addGroup(name: string, permissions: Array<string>): Promise<string> {
         const group: { id: string } = await GroupModel.create({ name, permissions });

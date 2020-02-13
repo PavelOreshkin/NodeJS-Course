@@ -41,14 +41,45 @@ INSERT INTO "userSchema".users(
 	VALUES ('Paul2', 'passPaul2', 22);
 
 
+
 CREATE SCHEMA "groupSchema";
 CREATE TABLE "groupSchema".groups
 (
     id SERIAL,
     name character varying NOT NULL,
-    permissions character varying(12)[];,
+    permissions character varying(12)[],
     PRIMARY KEY (id)
 );
 
 ALTER TABLE "groupSchema".groups
 OWNER to postgres;
+
+INSERT INTO "groupSchema".groups(
+	name, permissions)
+	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+
+INSERT INTO "groupSchema".groups(
+	name, permissions)
+	VALUES ('admin2', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+
+INSERT INTO "groupSchema".groups(
+	name, permissions)
+	VALUES ('admin3', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+
+
+
+CREATE SCHEMA "userGroupSchema";
+CREATE TABLE "userGroupSchema".userGroup
+(
+    id SERIAL,
+    userId int NOT NULL,
+    groupId int NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE "userGroupSchema".userGroup
+OWNER to postgres;
+
+-- INSERT INTO "groupSchema".groups(
+-- 	name, permissions)
+-- 	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
