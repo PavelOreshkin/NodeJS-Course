@@ -149,28 +149,30 @@
 			"name": "Group",
 			"item": [
 				{
-					"name": "getUsers",
+					"name": "getGroups",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/users?loginSubstring=pau&limit=2",
+							"raw": "http://localhost:3000/groups?",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users"
+								"groups"
 							],
 							"query": [
 								{
-									"key": "loginSubstring",
-									"value": "pau"
+									"key": "groupSubstring",
+									"value": "adm",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "2"
+									"value": "2",
+									"disabled": true
 								}
 							]
 						}
@@ -183,7 +185,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/group/5",
+							"raw": "http://localhost:3000/group/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -191,7 +193,7 @@
 							"port": "3000",
 							"path": [
 								"group",
-								"5"
+								"2"
 							]
 						}
 					},
@@ -211,7 +213,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"test2\",\n\t\"permissions\": [\"READ\", \"WRITE\", \"DELETE\", \"SHARE\", \"UPLOAD_FILES\"]\n}"
+							"raw": "{\n\t\"name\": \"qwe4\",\n\t\"permissions\": [\"READ\", \"WRITE\", \"DELETE\", \"SHARE\", \"UPLOAD_FILES\"]\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/group",
@@ -259,7 +261,7 @@
 					"response": []
 				},
 				{
-					"name": "deleteUser",
+					"name": "deleteGroup",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -268,19 +270,77 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/user/3",
+							"raw": "http://localhost:3000/group/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"user",
-								"3"
+								"group",
+								"2"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "UserGroup",
+			"item": [
+				{
+					"name": "addUserToGroup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"groupId\": 1,\n\t\"usersIds\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/userGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userGroup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5b2f2a88-1fa3-4a82-bbf2-0261e1ef78f1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "efb3dba4-74dc-4f0b-9bcd-cec669023cac",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}

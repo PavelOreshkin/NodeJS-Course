@@ -1,23 +1,23 @@
-import { UsersModel } from '../models/userModel';
+import { UserModel } from '../models/userModel';
 import { Op } from '../data-access';
 
 export default class UserService {
     static async getUserById(id: number): Promise<object> {
-        return await UsersModel.findByPk(id);
+        return await UserModel.findByPk(id);
     }
 
     static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<string> {
         if (loginSubstring) {
-            return await UsersModel.findAll({
+            return await UserModel.findAll({
                 where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
                 limit: limit || null
             });
         }
-        return await UsersModel.findAll();
+        return await UserModel.findAll();
     }
 
     static async deleteUser(id: number): Promise<boolean> {
-        const result: Array<number> = await UsersModel.update(
+        const result: Array<number> = await UserModel.update(
             { isDeleted: true },
             { where: { id } }
         );
@@ -25,12 +25,12 @@ export default class UserService {
     }
 
     static async addUser(login: string, password: string, age: number): Promise<string> {
-        const user: { id: string } = await UsersModel.create({ login, password, age });
+        const user: { id: string } = await UserModel.create({ login, password, age });
         return user.id;
     }
 
     static async editUser(id: number, login: string, password: string, age: number): Promise<boolean> {
-        const result: Array<number> = await UsersModel.update(
+        const result: Array<number> = await UserModel.update(
             { login, password, age },
             { where: { id } }
         );
@@ -38,7 +38,7 @@ export default class UserService {
     }
 
     static async isUserExist(id: number): Promise<boolean> {
-        const count: number = await UsersModel.count({ where: { id } });
+        const count: number = await UserModel.count({ where: { id } });
         return (count !== 0);
     }
 }

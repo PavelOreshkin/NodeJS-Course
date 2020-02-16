@@ -1,5 +1,5 @@
 CREATE SCHEMA "userSchema";
-CREATE TABLE "userSchema".users
+CREATE TABLE "userSchema"."Users"
 (
     id SERIAL,
     login character varying NOT NULL,
@@ -9,41 +9,41 @@ CREATE TABLE "userSchema".users
     PRIMARY KEY (id)
 );
 
-ALTER TABLE "userSchema".users
+ALTER TABLE "userSchema"."Users"
 OWNER to postgres;
 
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Boris', 'boris007', 48);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Feokl', 'kosovorotka228', 14);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Makar', 'Rakam', 28);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Kupala', 'poleno', 33);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Svyatomir', 'overkiller9000', 18);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Paul1', 'passPaul1', 11);
 	
-INSERT INTO "userSchema".users(
+INSERT INTO "userSchema"."Users"(
 	login, password, age)
 	VALUES ('Paul2', 'passPaul2', 22);
 
 
 
 CREATE SCHEMA "groupSchema";
-CREATE TABLE "groupSchema".groups
+CREATE TABLE "groupSchema"."Groups"
 (
     id SERIAL,
     name character varying NOT NULL,
@@ -51,35 +51,34 @@ CREATE TABLE "groupSchema".groups
     PRIMARY KEY (id)
 );
 
-ALTER TABLE "groupSchema".groups
+ALTER TABLE "groupSchema"."Groups"
 OWNER to postgres;
 
-INSERT INTO "groupSchema".groups(
+INSERT INTO "groupSchema"."Groups"(
 	name, permissions)
-	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']);
 
-INSERT INTO "groupSchema".groups(
+INSERT INTO "groupSchema"."Groups"(
 	name, permissions)
-	VALUES ('admin2', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+	VALUES ('admin2', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']);
 
-INSERT INTO "groupSchema".groups(
+INSERT INTO "groupSchema"."Groups"(
 	name, permissions)
-	VALUES ('admin3', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+	VALUES ('admin3', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']);
 
 
 
 CREATE SCHEMA "userGroupSchema";
-CREATE TABLE "userGroupSchema".userGroup
+CREATE TABLE "userGroupSchema"."UsersGroups"
 (
-    id SERIAL,
-    userId int NOT NULL,
-    groupId int NOT NULL,
-    PRIMARY KEY (id)
+    groupId int NOT NULL REFERENCES "groupSchema"."Groups" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    userId int NOT NULL REFERENCES "userSchema"."Users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    PRIMARY KEY (groupId, userId)
 );
 
-ALTER TABLE "userGroupSchema".userGroup
+ALTER TABLE "userGroupSchema"."UsersGroups"
 OWNER to postgres;
 
--- INSERT INTO "groupSchema".groups(
+-- INSERT INTO "groupSchema"."Groups"(
 -- 	name, permissions)
 -- 	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
