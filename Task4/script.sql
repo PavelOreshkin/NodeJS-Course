@@ -71,14 +71,15 @@ INSERT INTO "groupSchema"."Groups"(
 CREATE SCHEMA "userGroupSchema";
 CREATE TABLE "userGroupSchema"."UsersGroups"
 (
-    groupId int NOT NULL REFERENCES "groupSchema"."Groups" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    userId int NOT NULL REFERENCES "userSchema"."Users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    PRIMARY KEY (groupId, userId)
+    -- id SERIAL,
+    "groupId" int NOT NULL REFERENCES "groupSchema"."Groups" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    "userId" int NOT NULL REFERENCES "userSchema"."Users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    PRIMARY KEY ("groupId", "userId")
 );
 
 ALTER TABLE "userGroupSchema"."UsersGroups"
 OWNER to postgres;
 
--- INSERT INTO "groupSchema"."Groups"(
--- 	name, permissions)
--- 	VALUES ('admin1', ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'])
+INSERT INTO "userGroupSchema"."UsersGroups"(
+	"groupId", "userId")
+	VALUES (2, 4)

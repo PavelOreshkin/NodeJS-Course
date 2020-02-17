@@ -1,5 +1,6 @@
 import { Sequelize, MyServer } from '../data-access';
 import { GroupModelStatic } from 'groupTypes';
+import { UserModel } from './userModel';
 
 export const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
     id: {
@@ -13,7 +14,7 @@ export const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
         allowNull: false
     },
     permissions: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) ,
+        type: Sequelize.ARRAY(Sequelize.TEXT),
         allowNull: false
     }
 }, {
@@ -22,10 +23,17 @@ export const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
 });
 
 GroupModel.associate = (models: any) => {
-    GroupModel.belongsToMany(models.UsersModel, {
+    GroupModel.belongsToMany(models.UserModel, {
         through: 'UserGroup',
         as: 'Users',
         foreignKey: 'userId',
         otherKey: 'groupId'
     });
 };
+
+// GroupModel.belongsToMany(UserModel, {
+//     through: 'UserGroup',
+//     as: 'Users',
+//     foreignKey: 'userId',
+//     otherKey: 'groupId'
+// });
