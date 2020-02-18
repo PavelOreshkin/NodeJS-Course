@@ -1,5 +1,5 @@
 import { Op } from '../data-access';
-import { GroupModel } from '../models/groupModel';
+import GroupModel from '../models/groupModel';
 
 export default class GroupService {
     static async getGroupById(id: number): Promise<object> {

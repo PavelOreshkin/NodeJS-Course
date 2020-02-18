@@ -1,8 +1,8 @@
 import { Sequelize, MyServer } from '../data-access';
 import { GroupModelStatic } from 'groupTypes';
-import { UserModel } from './userModel';
+import UserModel from './userModel';
 
-export const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
+const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -22,18 +22,27 @@ export const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
     schema: 'groupSchema'
 });
 
-GroupModel.associate = (models: any) => {
-    GroupModel.belongsToMany(models.UserModel, {
-        through: 'UserGroup',
-        as: 'Users',
-        foreignKey: 'userId',
-        otherKey: 'groupId'
-    });
-};
+// console.log('111');
+// GroupModel.associate = (models: any) => {
+//     console.log('XXX');
+//     GroupModel.belongsToMany(models.UserModel, {
+//         through: 'UserGroup',
+//         as: 'Users',
+//         foreignKey: 'groupId',
+//         otherKey: 'userId'
+//     });
+// };
+// console.log('222');
 
-// GroupModel.belongsToMany(UserModel, {
-//     through: 'UserGroup',
-//     as: 'Users',
-//     foreignKey: 'userId',
-//     otherKey: 'groupId'
-// });
+console.log('111');
+GroupModel.belongsToMany(UserModel, {
+    through: {
+        model: 'UserGroup'
+    },
+    as: 'Users',
+    foreignKey: 'groupId',
+    otherKey: 'userId'
+});
+console.log('222');
+
+export default GroupModel;

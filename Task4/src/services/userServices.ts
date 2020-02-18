@@ -1,6 +1,6 @@
-import { UserModel } from '../models/userModel';
+import UserModel from '../models/userModel';
 import { Op } from '../data-access';
-import { GroupModel } from '../models/groupModel';
+import GroupModel from '../models/groupModel';
 import { UserGroupModel } from '../models/userGroupModel';
 
 export default class UserService {
@@ -15,7 +15,7 @@ export default class UserService {
                 limit: limit || null
             });
         }
-        // return await UserModel.findAll({ include: 'Group' });
+        return await UserModel.findAll({ include: 'Group' });
         // return await UserModel.findAll({ include: GroupModel });
         // return await UserModel.findAll({
         //     include: {
@@ -23,21 +23,21 @@ export default class UserService {
         //         as: 'group'
         //     }
         // });
-        return await UserModel.findAll({
-            include: [{
-                model: GroupModel,
-                as: 'groups',
-                required: false,
-                // Pass in the Product attributes that you want to retrieve
-                // attributes: ['id', 'name'],
-                through: {
-                    // This block of code allows you to retrieve the properties of the join table
-                    model: UserGroupModel,
-                    as: 'productOrders',
-                    // attributes: ['qty'],
-                }
-            }]
-        });
+        // return await UserModel.findAll({
+        //     include: [{
+        //         model: GroupModel,
+        //         as: 'groups',
+        //         required: false,
+        //         // Pass in the Product attributes that you want to retrieve
+        //         // attributes: ['id', 'name'],
+        //         through: {
+        //             // This block of code allows you to retrieve the properties of the join table
+        //             model: UserGroupModel,
+        //             as: 'productOrders',
+        //             // attributes: ['qty'],
+        //         }
+        //     }]
+        // });
     }
 
     static async deleteUser(id: number): Promise<boolean> {
