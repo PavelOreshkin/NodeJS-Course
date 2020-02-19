@@ -26,5 +26,5 @@ export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGrou
     }
 }, {
     timestamps: false,
-    schema: 'userGroupSchema'
+    schema: 'ProjectSchema'
 });

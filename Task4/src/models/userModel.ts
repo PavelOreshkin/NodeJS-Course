@@ -26,7 +26,7 @@ const UserModel = /* <UserModelStatic> */ MyServer.define('User', {
     }
 }, {
     timestamps: false,
-    schema: 'userSchema'
+    schema: 'ProjectSchema'
 });
 
 // console.log('333');

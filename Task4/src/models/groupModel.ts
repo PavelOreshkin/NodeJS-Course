@@ -19,7 +19,7 @@ const GroupModel = /* <GroupModelStatic> */ MyServer.define('Group', {
     }
 }, {
     timestamps: false,
-    schema: 'groupSchema'
+    schema: 'ProjectSchema'
 });
 
 // console.log('111');
