@@ -3,7 +3,7 @@ import UserModel from './userModel';
 import GroupModel from './groupModel';
 // import { UserModelStatic } from '../types/userTypes';
 
-export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGroups', {
+export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('usersGroups', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -14,7 +14,7 @@ export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGrou
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'Group',
+            model: 'group',
             key: 'id'
         }
     },
@@ -22,7 +22,7 @@ export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGrou
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: 'user',
             key: 'id'
         }
     }
@@ -33,18 +33,18 @@ export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGrou
 
 UserModel.belongsToMany(GroupModel, {
     through: {
-        model: 'UsersGroups'
+        model: 'usersGroups'
     },
-    as: 'Groups',
+    as: 'groups',
     foreignKey: 'userId',
     otherKey: 'groupId'
 });
 
 GroupModel.belongsToMany(UserModel, {
     through: {
-        model: 'UsersGroups'
+        model: 'usersGroups'
     },
-    as: 'Users',
+    as: 'users',
     foreignKey: 'groupId',
     otherKey: 'userId'
 });

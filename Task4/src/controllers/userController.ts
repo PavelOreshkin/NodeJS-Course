@@ -6,7 +6,9 @@ import { validationMiddleware } from '../validations';
 import { addUserSchema, editUserSchema } from '../validations/userSchemes';
 
 export const UserController = (router: Router): void => {
-    router.param('id', async (_req: Request, res: Response, next: NextFunction, id: string): Promise<void> => {
+    router.param('id', async (req: Request, res: Response, next: NextFunction, id: string): Promise<void> => {
+        console.log('req: ', req.url);
+
         const success: boolean = await UserService.isUserExist(Number(id));
         if (success) {
             next();
@@ -15,7 +17,7 @@ export const UserController = (router: Router): void => {
         res.status(404).json({ message: `User with id=${id} not found` });
     });
 
-    router.get(' id', async (req: Request, res: Response): Promise<void> => {
+    router.get('/user/:id', async (req: Request, res: Response): Promise<void> => {
         const id: number = Number(req.params.id);
         const user: Object = await UserService.getUserById(id);
         res.json({ user });

@@ -9,11 +9,12 @@ export default class GroupService {
     static async getAllGroups(groupSubstring: string, limit: number): Promise<string> {
         if (groupSubstring) {
             return await GroupModel.findAll({
+                include: 'users',
                 where: { name: { [Op.iLike]: `%${groupSubstring}%` } },
                 limit: limit || null
             });
         }
-        return await GroupModel.findAll();
+        return await GroupModel.findAll({ include: 'users' });
     }
 
     static async deleteGroup(id: number): Promise<boolean> {

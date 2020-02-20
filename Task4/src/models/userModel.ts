@@ -1,7 +1,7 @@
 import { Sequelize, MyServer } from '../data-access';
 import { UserModelStatic } from '../types/userTypes';
 
-const UserModel = /* <UserModelStatic> */ MyServer.define('User', {
+const UserModel = /* <UserModelStatic> */ MyServer.define('user', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
