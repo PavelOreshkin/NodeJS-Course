@@ -1,4 +1,6 @@
 import { Sequelize, MyServer } from '../data-access';
+import UserModel from './userModel';
+import GroupModel from './groupModel';
 // import { UserModelStatic } from '../types/userTypes';
 
 export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGroups', {
@@ -27,4 +29,22 @@ export const UserGroupModel = /* <UserModelStatic> */ MyServer.define('UsersGrou
 }, {
     timestamps: false,
     schema: 'ProjectSchema'
+});
+
+UserModel.belongsToMany(GroupModel, {
+    through: {
+        model: 'UsersGroups'
+    },
+    as: 'Groups',
+    foreignKey: 'userId',
+    otherKey: 'groupId'
+});
+
+GroupModel.belongsToMany(UserModel, {
+    through: {
+        model: 'UsersGroups'
+    },
+    as: 'Users',
+    foreignKey: 'groupId',
+    otherKey: 'userId'
 });

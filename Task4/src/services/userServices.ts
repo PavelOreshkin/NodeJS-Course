@@ -15,7 +15,7 @@ export default class UserService {
                 limit: limit || null
             });
         }
-        return await UserModel.findAll({ include: 'Group' });
+        return await UserModel.findAll({ include: 'Groups' });
         // return await UserModel.findAll({ include: GroupModel });
         // return await UserModel.findAll({
         //     include: {
