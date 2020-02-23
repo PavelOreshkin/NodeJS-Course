@@ -5,12 +5,12 @@ export type GroupDTO = {
   permissions: Array<string>;
 };
 
-export interface GroupModel extends Model {
+export interface GroupModelType extends Model {
   id: number;
   name: string;
   permissions: Array<string>;
 }
 
 export type GroupModelStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): GroupModel;
+  new (values?: object, options?: BuildOptions): GroupModelType;
 };

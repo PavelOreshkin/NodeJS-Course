@@ -1,7 +1,7 @@
 import { Sequelize, MyServer } from '../data-access';
 import { GroupModelStatic } from 'groupTypes';
 
-const GroupModel = /* <GroupModelStatic> */ MyServer.define('group', {
+const GroupModel = <GroupModelStatic> MyServer.define('group', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

@@ -6,7 +6,7 @@ export type UserDTO = {
   age: number;
 };
 
-export interface UserModel extends Model {
+export interface UserModelType extends Model {
   id: number;
   login: string;
   password: string;
@@ -15,5 +15,5 @@ export interface UserModel extends Model {
 }
 
 export type UserModelStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): UserModel;
+  new (values?: object, options?: BuildOptions): UserModelType;
 };

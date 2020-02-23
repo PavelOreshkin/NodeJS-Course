@@ -10,5 +10,5 @@ HOW START? SIMPLE!
 2. npm run dev
 
 Also:
-Homework 3 - description to task
-Task3Collection - postman collection from this task
+Homework 4 - description to task
+Task4Collection - postman collection from this task

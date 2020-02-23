@@ -1,20 +1,22 @@
 import { Op } from '../data-access';
 import GroupModel from '../models/groupModel';
+import UserModel from '../models/userModel';
+import { GroupModelType } from '../types/groupTypes';
 
 export default class GroupService {
     static async getGroupById(id: number): Promise<object> {
         return await GroupModel.findByPk(id);
     }
 
-    static async getAllGroups(groupSubstring: string, limit: number): Promise<string> {
+    static async getAllGroups(groupSubstring: string, limit: number): Promise<GroupModelType[]> {
         if (groupSubstring) {
             return await GroupModel.findAll({
-                include: 'users',
+                include: [{ model: UserModel, as: 'users' }],
                 where: { name: { [Op.iLike]: `%${groupSubstring}%` } },
                 limit: limit || null
             });
         }
-        return await GroupModel.findAll({ include: 'users' });
+        return await GroupModel.findAll({ include: [{ model: UserModel, as: 'users' }] });
     }
 
     static async deleteGroup(id: number): Promise<boolean> {
@@ -24,13 +26,13 @@ export default class GroupService {
         return result > 0;
     }
 
-    static async addGroup(name: string, permissions: Array<string>): Promise<string> {
-        const group: { id: string } = await GroupModel.create({ name, permissions });
+    static async addGroup(name: string, permissions: Array<string>): Promise<number> {
+        const group: { id: number } = await GroupModel.create({ name, permissions });
         return group.id;
     }
 
     static async editGroup(id: number, name: string, permissions: Array<string>): Promise<boolean> {
-        const result: Array<number> = await GroupModel.update(
+        const result: [number, GroupModelType[]] = await GroupModel.update(
             { name, permissions },
             { where: { id } }
         );

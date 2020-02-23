@@ -43,7 +43,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/user/5",
+							"raw": "http://localhost:3000/user/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -51,7 +51,7 @@
 							"port": "3000",
 							"path": [
 								"user",
-								"5"
+								"4"
 							]
 						}
 					},
@@ -185,7 +185,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/group/2",
+							"raw": "http://localhost:3000/group/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -193,7 +193,7 @@
 							"port": "3000",
 							"path": [
 								"group",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -304,7 +304,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupId\": 1,\n\t\"usersIds\": [1, 2, 3]\n}"
+							"raw": "{\n\t\"groupId\": 1,\n\t\"usersIds\": [1, 2]\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/userGroup",

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import UserService from '../services/userServices';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { UserDTO } from '../types/userTypes';
@@ -6,17 +6,6 @@ import { validationMiddleware } from '../validations';
 import { addUserSchema, editUserSchema } from '../validations/userSchemes';
 
 export const UserController = (router: Router): void => {
-    router.param('id', async (req: Request, res: Response, next: NextFunction, id: string): Promise<void> => {
-        console.log('req: ', req.url);
-
-        const success: boolean = await UserService.isUserExist(Number(id));
-        if (success) {
-            next();
-            return;
-        }
-        res.status(404).json({ message: `User with id=${id} not found` });
-    });
-
     router.get('/user/:id', async (req: Request, res: Response): Promise<void> => {
         const id: number = Number(req.params.id);
         const user: Object = await UserService.getUserById(id);
@@ -33,7 +22,7 @@ export const UserController = (router: Router): void => {
     router.post('/user', addUserValidation,
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
-            const id: string = await UserService.addUser(login, password, age);
+            const id: number = await UserService.addUser(login, password, age);
             res.status(201).json({ id });
         }
     );
