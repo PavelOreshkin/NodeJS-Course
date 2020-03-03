@@ -18,8 +18,7 @@ export const UserController = (router: Router): void => {
         res.json({ users });
     });
 
-    const addUserValidation = validationMiddleware(addUserSchema);
-    router.post('/user', addUserValidation,
+    router.post('/user', validationMiddleware(addUserSchema),
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: number = await UserService.addUser(login, password, age);
@@ -27,8 +26,7 @@ export const UserController = (router: Router): void => {
         }
     );
 
-    const editUserValidation = validationMiddleware(editUserSchema);
-    router.put('/user/:id', editUserValidation,
+    router.put('/user/:id', validationMiddleware(editUserSchema),
         async (req: Request, res: Response): Promise<void> => {
             const { login, password, age }: UserDTO = req.body;
             const id: number = Number(req.params.id);

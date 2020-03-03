@@ -1,4 +1,4 @@
-export const serverConfig = {
+export const databaseConfig = {
     serverOwner: 'postgres',
     password: 'qwe',
     host: 'localhost',

@@ -5,18 +5,17 @@ import { GroupModelType } from '../types/groupTypes';
 
 export default class GroupService {
     static async getGroupById(id: number): Promise<object> {
-        return await GroupModel.findByPk(id);
+        return await GroupModel.findAll({
+            include: [{ model: UserModel, as: 'users' }],
+            where: { id }
+        });
     }
 
     static async getAllGroups(groupSubstring: string, limit: number): Promise<GroupModelType[]> {
-        if (groupSubstring) {
-            return await GroupModel.findAll({
-                include: [{ model: UserModel, as: 'users' }],
-                where: { name: { [Op.iLike]: `%${groupSubstring}%` } },
-                limit: limit || null
-            });
-        }
-        return await GroupModel.findAll({ include: [{ model: UserModel, as: 'users' }] });
+        return await GroupModel.findAll({
+            where: groupSubstring && { name: { [Op.iLike]: `%${groupSubstring}%` } },
+            limit: limit || null
+        });
     }
 
     static async deleteGroup(id: number): Promise<boolean> {
