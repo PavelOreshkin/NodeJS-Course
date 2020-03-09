@@ -5,20 +5,19 @@ import { GroupDTO } from 'groupTypes';
 
 const router: Router = express.Router();
 
-// export const GroupController = (router: Router): void => {
-router.get('/group/:id', async (req: Request, res: Response): Promise<void> => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
     const group: Object = await GroupService.getGroupById(id);
     res.json({ group });
 });
 
-router.get('/groups', async (req: Request, res: Response): Promise<void> => {
+router.get('', async (req: Request, res: Response): Promise<void> => {
     const { groupSubstring, limit }: ParamsDictionary = req.query;
     const groups: Object = await GroupService.getAllGroups(groupSubstring, Number(limit));
     res.json({ groups });
 });
 
-router.post('/group',
+router.post('',
     async (req: Request, res: Response): Promise<void> => {
         const { name, permissions }: GroupDTO = req.body;
         const id: number = await GroupService.addGroup(name, permissions);
@@ -26,7 +25,7 @@ router.post('/group',
     }
 );
 
-router.put('/group/:id',
+router.put('/:id',
     async (req: Request, res: Response): Promise<void> => {
         const { name, permissions }: GroupDTO = req.body;
         const id: number = Number(req.params.id);
@@ -39,7 +38,7 @@ router.put('/group/:id',
     }
 );
 
-router.delete('/group/:id', async (req: Request, res: Response): Promise<void> => {
+router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
     const success: boolean = await GroupService.deleteGroup(id);
     if (success) {
@@ -48,6 +47,5 @@ router.delete('/group/:id', async (req: Request, res: Response): Promise<void> =
     }
     res.status(400).json({ message: 'something went wrong' });
 });
-// };
 
 export default router;

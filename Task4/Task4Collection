@@ -14,14 +14,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/users?loginSubstring=pau&limit=2",
+							"raw": "http://localhost:3000/user?loginSubstring=pau&limit=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users"
+								"user"
 							],
 							"query": [
 								{
@@ -43,7 +43,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/user/4",
+							"raw": "http://localhost:3000/user/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -51,7 +51,7 @@
 							"port": "3000",
 							"path": [
 								"user",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -71,7 +71,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"login\": \"Pau20\",\n\t\"password\": \"a20\",\n\t\"age\": 2\n}"
+							"raw": "{\n\t\"login\": \"Pau23\",\n\t\"password\": \"a23\",\n\t\"age\": 23\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/user",
@@ -154,14 +154,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/groups?",
+							"raw": "http://localhost:3000/group?",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"groups"
+								"group"
 							],
 							"query": [
 								{

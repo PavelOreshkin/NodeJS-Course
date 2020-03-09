@@ -5,9 +5,8 @@ import { GroupModelType } from '../types/groupTypes';
 
 export default class GroupService {
     static async getGroupById(id: number): Promise<object> {
-        return await GroupModel.findAll({
-            include: [{ model: UserModel, as: 'users' }],
-            where: { id }
+        return await GroupModel.findByPk(id, {
+            include: [{ model: UserModel, as: 'users' }]
         });
     }
 

@@ -4,8 +4,7 @@ import UserGroupService from '../services/userGroupServices';
 
 const router: Router = express.Router();
 
-// export const UserGroupController = (router: Router): void => {
-router.post('/userGroup',
+router.post('',
     async (req: Request, res: Response): Promise<void> => {
         const { groupId, usersIds }: UserGroupDTO = req.body;
         let userGroups;
@@ -17,6 +16,5 @@ router.post('/userGroup',
         res.status(201).json({ userGroups });
     }
 );
-// };
 
 export default router;

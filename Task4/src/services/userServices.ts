@@ -5,9 +5,8 @@ import { UserModelType } from '../types/userTypes';
 
 export default class UserService {
     static async getUserById(id: number): Promise<object> {
-        return await UserModel.findAll({
-            include: [{ model: GroupModel, as: 'groups' }],
-            where: { id }
+        return await UserModel.findByPk(id, {
+            include: [{ model: GroupModel, as: 'groups' }]
         });
     }
 

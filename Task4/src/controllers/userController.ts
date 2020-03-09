@@ -4,22 +4,22 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { UserDTO } from '../types/userTypes';
 import { validationMiddleware } from '../validations';
 import { addUserSchema, editUserSchema } from '../validations/userSchemes';
+
 const router: Router = express.Router();
 
-// export const UserController = (router: Router): void => {
-router.get('/user/:id', async (req: Request, res: Response): Promise<void> => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
     const user: Object = await UserService.getUserById(id);
     res.json({ user });
 });
 
-router.get('/users', async (req: Request, res: Response): Promise<void> => {
+router.get('s', async (req: Request, res: Response): Promise<void> => {
     const { loginSubstring, limit }: ParamsDictionary = req.query;
     const users: Object = await UserService.getAutoSuggestUsers(loginSubstring, Number(limit));
     res.json({ users });
 });
 
-router.post('/user', validationMiddleware(addUserSchema),
+router.post('', validationMiddleware(addUserSchema),
     async (req: Request, res: Response): Promise<void> => {
         const { login, password, age }: UserDTO = req.body;
         const id: number = await UserService.addUser(login, password, age);
@@ -27,7 +27,7 @@ router.post('/user', validationMiddleware(addUserSchema),
     }
 );
 
-router.put('/user/:id', validationMiddleware(editUserSchema),
+router.put('/:id', validationMiddleware(editUserSchema),
     async (req: Request, res: Response): Promise<void> => {
         const { login, password, age }: UserDTO = req.body;
         const id: number = Number(req.params.id);
@@ -40,7 +40,7 @@ router.put('/user/:id', validationMiddleware(editUserSchema),
     }
 );
 
-router.delete('/user/:id', async (req: Request, res: Response): Promise<void> => {
+router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
     const success: boolean = await UserService.deleteUser(id);
     if (success) {
@@ -49,6 +49,5 @@ router.delete('/user/:id', async (req: Request, res: Response): Promise<void> =>
     }
     res.status(400).json({ message: 'something went wrong' });
 });
-// };
 
 export default router;
