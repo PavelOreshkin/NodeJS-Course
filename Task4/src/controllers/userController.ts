@@ -1,11 +1,15 @@
 import express, { Request, Response, Router } from 'express';
 import UserService from '../services/userServices';
-import { ParamsDictionary } from 'express-serve-static-core';
+// import { ParamsDictionary } from 'express-serve-static-core';
 import { UserDTO } from '../types/userTypes';
-import { validationMiddleware } from '../validations';
+import { validationMiddleware, verifyEntityExistence } from '../validations';
 import { addUserSchema, editUserSchema } from '../validations/userSchemes';
+import { ENTITY } from '../constants';
+import { UserQuery } from '../types/userTypes';
 
 const router: Router = express.Router();
+
+router.param('id', verifyEntityExistence(ENTITY.USER));
 
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
@@ -13,13 +17,13 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     res.json({ user });
 });
 
-router.get('s', async (req: Request, res: Response): Promise<void> => {
-    const { loginSubstring, limit }: ParamsDictionary = req.query;
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+    const { loginSubstring, limit }: UserQuery = req.query;
     const users: Object = await UserService.getAutoSuggestUsers(loginSubstring, Number(limit));
     res.json({ users });
 });
 
-router.post('', validationMiddleware(addUserSchema),
+router.post('/', validationMiddleware(addUserSchema),
     async (req: Request, res: Response): Promise<void> => {
         const { login, password, age }: UserDTO = req.body;
         const id: number = await UserService.addUser(login, password, age);

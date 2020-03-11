@@ -12,6 +12,7 @@ router.post('',
             userGroups = await UserGroupService.addUsersToGroup(Number(groupId), usersIds);
         } catch (error) {
             res.status(400).json({ message: error.original.detail });
+            return;
         }
         res.status(201).json({ userGroups });
     }

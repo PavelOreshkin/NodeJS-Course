@@ -1,9 +1,13 @@
 import express, { Request, Response, Router } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 import GroupService from '../services/groupServices';
 import { GroupDTO } from 'groupTypes';
+import { ENTITY } from '../constants';
+import { verifyEntityExistence } from '../validations';
+import { GroupQuery } from '../types/groupTypes';
 
 const router: Router = express.Router();
+
+router.param('id', verifyEntityExistence(ENTITY.GROUP));
 
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id: number = Number(req.params.id);
@@ -11,13 +15,13 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     res.json({ group });
 });
 
-router.get('', async (req: Request, res: Response): Promise<void> => {
-    const { groupSubstring, limit }: ParamsDictionary = req.query;
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+    const { groupSubstring, limit }: GroupQuery = req.query;
     const groups: Object = await GroupService.getAllGroups(groupSubstring, Number(limit));
     res.json({ groups });
 });
 
-router.post('',
+router.post('/',
     async (req: Request, res: Response): Promise<void> => {
         const { name, permissions }: GroupDTO = req.body;
         const id: number = await GroupService.addGroup(name, permissions);
