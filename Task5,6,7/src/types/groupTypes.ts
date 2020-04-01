@@ -5,6 +5,11 @@ export type GroupDTO = {
   permissions: Array<string>;
 };
 
+export type GroupQuery = {
+  groupSubstring: string;
+  limit: string;
+};
+
 export interface GroupModelType extends Model {
   id: number;
   name: string;

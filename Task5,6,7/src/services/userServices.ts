@@ -5,18 +5,16 @@ import { UserModelType } from '../types/userTypes';
 
 export default class UserService {
     static async getUserById(id: number): Promise<object> {
-        return await UserModel.findByPk(id);
+        return await UserModel.findByPk(id, {
+            include: [{ model: GroupModel, as: 'groups' }]
+        });
     }
 
     static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<UserModelType[]> {
-        if (loginSubstring) {
-            return await UserModel.findAll({
-                include: [{ model: GroupModel, as: 'groups' }],
-                where: { login: { [Op.iLike]: `%${loginSubstring}%` } },
-                limit: limit || null
-            });
-        }
-        return await UserModel.findAll({ include: [{ model: GroupModel, as: 'groups' }] });
+        return await UserModel.findAll({
+            where: loginSubstring && { login: { [Op.iLike]: `%${loginSubstring}%` } },
+            limit: limit || null
+        });
     }
 
     static async deleteUser(id: number): Promise<boolean> {

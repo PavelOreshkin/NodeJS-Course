@@ -18,8 +18,7 @@ export const validationMiddleware =
             }
         };
 
-export const verifyEntityExistence = async (req: Request, res: Response, next: NextFunction, id: string) => {
-    const entity = req.url.match('/(.*)/')[1];
+export const verifyEntityExistence = (entity: any) => async (req: Request, res: Response, next: NextFunction, id: string) => {
     let entityMessage: string = '';
     let success: boolean;
 

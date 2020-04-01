@@ -4,11 +4,11 @@ HOW START? SIMPLE!
     2) create admin:
       login: postgres
       pass: qwe
-    3) create db: task5
+    3) create db: task
     4) use script script.sql
 2. npm i
 2. npm run dev
 
 Also:
-Homework 5 - description to task
-Task5Collection - postman collection from this task
+Homework {number} - description to task
+PostmanCollection - postman collection from this task

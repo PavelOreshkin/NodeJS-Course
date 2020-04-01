@@ -6,6 +6,11 @@ export type UserDTO = {
   age: number;
 };
 
+export type UserQuery = {
+  loginSubstring: string;
+  limit: string;
+};
+
 export interface UserModelType extends Model {
   id: number;
   login: string;
