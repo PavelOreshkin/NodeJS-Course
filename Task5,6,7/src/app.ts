@@ -1,4 +1,4 @@
-import express, { Router, Application, Request, Response } from 'express';
+import express, { Router, Application, Request, Response, NextFunction } from 'express';
 import { dbInit } from './data-access';
 import UserController from './controllers/userController';
 import GroupController from './controllers/groupController';
@@ -10,14 +10,15 @@ export const router: Router = express.Router();
 
 app.use(express.json());
 app.use(winstoneLogger);
-app.use((err: any, req: Request, res: Response, next: any) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
 
 app.use('/user', UserController);
 app.use('/group', GroupController);
 app.use('/userGroup', UserGroupController);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 dbInit('db success connected');
 app.listen(3000, () => console.log('server running'));

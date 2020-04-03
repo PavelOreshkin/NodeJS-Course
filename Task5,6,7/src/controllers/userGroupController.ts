@@ -1,12 +1,13 @@
-import express, { Request, Response, Router } from 'express';
+import express, { Request, Response, Router, NextFunction } from 'express';
 import { UserGroupDTO } from '../types/userGroupTypes';
 import UserGroupService from '../services/userGroupServices';
 import { sendLog } from '../logger';
 
 const router: Router = express.Router();
 
-router.post('',
-    async (req: Request, res: Response): Promise<void> => {
+router.post(
+    '/',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         const { method, path } = req;
         const { groupId, usersIds }: UserGroupDTO = req.body;
         let userGroups;
@@ -16,7 +17,7 @@ router.post('',
             const message = error.original.detail;
             sendLog({ method, path, message });
             res.status(400).json({ message });
-            return;
+            return next(error);
         }
         res.status(201).json({ userGroups });
     }
