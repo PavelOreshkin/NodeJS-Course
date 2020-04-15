@@ -8,18 +8,20 @@ const router: Router = express.Router();
 router.post(
     '/',
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        const { method, path } = req;
-        const { groupId, usersIds }: UserGroupDTO = req.body;
-        let userGroups;
         try {
-            userGroups = await UserGroupService.addUsersToGroup(Number(groupId), usersIds);
-        } catch (error) {
-            const message = error.original.detail;
+            const { method, path } = req;
+            const { groupId, usersIds }: UserGroupDTO = req.body;
+            const userGroups = await UserGroupService.addUsersToGroup(Number(groupId), usersIds);
+            if (userGroups) {
+                res.status(201).json({ userGroups });
+                return;
+            }
+            const message = 'user not assigned to group';
             sendLog({ method, path, message });
             res.status(400).json({ message });
+        } catch (error) {
             return next(error);
         }
-        res.status(201).json({ userGroups });
     }
 );
 
