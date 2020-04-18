@@ -1,16 +1,23 @@
 import express, { Router, Application, Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import { dbInit } from './data-access';
 import UserController from './controllers/userController';
 import GroupController from './controllers/groupController';
 import UserGroupController from './controllers/userGroupController';
+import AuthenticateController from './controllers/authenticateController';
 import { winstoneLogger } from './logger';
+import { checkToken } from './authenticate';
+import { corsOptions } from './config';
 
 export const app: Application = express();
 export const router: Router = express.Router();
 
 app.use(express.json());
 app.use(winstoneLogger);
+app.use(cors(corsOptions));
 
+app.use('/login', AuthenticateController);
+app.use(checkToken);
 app.use('/user', UserController);
 app.use('/group', GroupController);
 app.use('/userGroup', UserGroupController);
