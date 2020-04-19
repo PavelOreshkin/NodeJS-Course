@@ -21,5 +21,7 @@ export default class Fakexpress {
 
     req: any;
     responseData: any;
-    next: any;
+    next: any = (error: any) => {
+        this.responseData = error.message;
+    };
 }

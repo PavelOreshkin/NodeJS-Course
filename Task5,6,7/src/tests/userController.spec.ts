@@ -9,7 +9,7 @@ describe('Check method getUserById ', () => {
             return 'success';
         }
         xp.res.status(404);
-        return 'error';
+        throw new Error('error');
     });
 
     test('status 200 and return user', async () => {
@@ -25,7 +25,7 @@ describe('Check method getUserById ', () => {
 
     test('should 404 and return error', async () => {
         const xp = new Fakexpress({ params: {} });
-        const result = { user: 'error' };
+        const result = 'error';
 
         await getUserById((id: number) =>
             fakeServiceCall(id, xp), xp.req as Request, xp.res as Response, xp.next as NextFunction);
