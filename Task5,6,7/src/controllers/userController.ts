@@ -11,17 +11,17 @@ const router: Router = express.Router();
 
 router.param('id', verifyEntityExistence(ENTITY.USER));
 
-export const getUserById = async (service: Function, req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id: number = Number(req.params.id);
-        const user: Object = await service(id);
+        const user: Object = await UserService.getUserById(id);
         res.json({ user });
     } catch (error) {
         return next(error);
     }
 };
 
-const getAutoSuggestUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getAutoSuggestUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { loginSubstring, limit }: UserQuery = req.query;
         const users: Object = await UserService.getAutoSuggestUsers(loginSubstring, Number(limit));
@@ -31,7 +31,7 @@ const getAutoSuggestUsers = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-const addUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const addUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { login, password, age }: UserDTO = req.body;
         const id: number = await UserService.addUser(login, password, age);
@@ -41,7 +41,7 @@ const addUser = async (req: Request, res: Response, next: NextFunction): Promise
     }
 };
 
-const editUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const editUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { method, path } = req;
         const { login, password, age }: UserDTO = req.body;
@@ -59,7 +59,7 @@ const editUser = async (req: Request, res: Response, next: NextFunction): Promis
     }
 };
 
-const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { method, path } = req;
         const id: number = Number(req.params.id);
@@ -76,7 +76,7 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction): Prom
     }
 };
 
-router.get('/:id', (...rest) => getUserById(UserService.getUserById, ...rest));
+router.get('/:id', getUserById);
 router.get('/', getAutoSuggestUsers);
 router.post('/', validationMiddleware(addUserSchema), addUser);
 router.put('/:id', validationMiddleware(editUserSchema), editUser);

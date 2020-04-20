@@ -1,36 +1,161 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserById } from '../controllers/userController';
+import { getUserById, getAutoSuggestUsers, addUser, editUser, deleteUser } from '../controllers/userController';
 import Fakexpress from './fakeExpress';
+import UserService from '../services/userServices';
 
-describe('Check method getUserById ', () => {
-    const fakeServiceCall = jest.fn().mockImplementation((id, xp) => {
-        if (Boolean(id)) {
-            xp.res.status(200);
-            return 'success';
-        }
-        xp.res.status(404);
-        throw new Error('error');
+jest.mock('../services/userServices', () => ({
+    getUserById: jest.fn(),
+    getAutoSuggestUsers: jest.fn(),
+    addUser: jest.fn(),
+    editUser: jest.fn(),
+    deleteUser: jest.fn()
+}));
+
+const mockedUserService = {
+    getUserById: UserService.getUserById as jest.Mock,
+    getAutoSuggestUsers: UserService.getAutoSuggestUsers as jest.Mock,
+    addUser: UserService.addUser as jest.Mock,
+    editUser: UserService.editUser as jest.Mock,
+    deleteUser: UserService.deleteUser as jest.Mock
+};
+
+describe('/user', () => {
+    describe('GET /', () => {
+        it('success return users', async () => {
+            const xp = new Fakexpress({
+                query: {
+                    loginSubstring: 'test',
+                    limit: 1
+                }
+            });
+            const users = [
+                { id: 1, login: 'test1' },
+                { id: 2, login: 'test2' }
+            ];
+            const expectedResult = { users };
+
+            mockedUserService.getAutoSuggestUsers.mockResolvedValue(users);
+
+            await getAutoSuggestUsers(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(200);
+        });
     });
 
-    test('status 200 and return user', async () => {
-        const xp = new Fakexpress({ params: { id: 1 } });
-        const result = { user: 'success' };
+    describe('GET /:id', () => {
+        it('success return user', async () => {
+            const xp = new Fakexpress({ params: { id: 1 } });
+            const user = { id: 1, username: 'test' };
+            const expectedResult = { user };
 
-        await getUserById((id: number) =>
-            fakeServiceCall(id, xp), xp.req as Request, xp.res as Response, xp.next as NextFunction);
+            mockedUserService.getUserById.mockResolvedValue(user);
 
-        expect(xp.responseData).toStrictEqual(result);
-        expect(xp.res.statusCode).toBe(200);
+            await getUserById(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(200);
+        });
     });
 
-    test('should 404 and return error', async () => {
-        const xp = new Fakexpress({ params: {} });
-        const result = 'error';
+    describe('POST /', () => {
+        it('success add user', async () => {
+            const xp = new Fakexpress({
+                body: {
+                    login: 'testLogin',
+                    password: 'testPassword',
+                    age: 10
+                }
+            });
+            const user = { id: 1 };
+            const expectedResult = user;
 
-        await getUserById((id: number) =>
-            fakeServiceCall(id, xp), xp.req as Request, xp.res as Response, xp.next as NextFunction);
+            mockedUserService.addUser.mockResolvedValue(user.id);
 
-        expect(xp.responseData).toStrictEqual(result);
-        expect(xp.res.statusCode).toBe(404);
+            await addUser(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(201);
+        });
+    });
+
+    describe('PUT /:id', () => {
+        it('success edit user', async () => {
+            const xp = new Fakexpress({
+                body: {
+                    login: 'testLogin',
+                    password: 'testPassword',
+                    age: 10
+                },
+                params: {
+                    id: 1
+                }
+            });
+            const response = { message: 'user edited success' };
+            const expectedResult = response;
+
+            mockedUserService.editUser.mockResolvedValue(response);
+
+            await editUser(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(200);
+        });
+        it('error edit user', async () => {
+            const xp = new Fakexpress({
+                body: {
+                    login: 'testLogin',
+                    password: 'testPassword',
+                    age: 10
+                },
+                params: {
+                    id: 1
+                }
+            });
+            const response = { message: 'user edited error' };
+            const expectedResult = response;
+
+            mockedUserService.editUser.mockRejectedValue(response);
+
+            await editUser(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(400);
+        });
+    });
+
+    describe('DELETE /:id', () => {
+        it('success delete user', async () => {
+            const xp = new Fakexpress({
+                params: {
+                    id: 1
+                }
+            });
+            const response = { message: 'user deleted success' };
+            const expectedResult = response;
+
+            mockedUserService.deleteUser.mockResolvedValue(response);
+
+            await deleteUser(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(200);
+        });
+        it('error delete user', async () => {
+            const xp = new Fakexpress({
+                params: {
+                    id: 1
+                }
+            });
+            const response = { message: 'user deleted error' };
+            const expectedResult = response;
+
+            mockedUserService.deleteUser.mockRejectedValue(response);
+
+            await deleteUser(xp.req as Request, xp.res as Response, xp.next as NextFunction);
+
+            expect(xp.responseData).toStrictEqual(expectedResult);
+            expect(xp.res.statusCode).toBe(400);
+        });
     });
 });

@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express, { Router, Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { dbInit } from './data-access';
