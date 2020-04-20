@@ -53,7 +53,7 @@
 						"header": [
 							{
 								"key": "x-access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU4NTgyNTMyMywiZXhwIjoxNTg1ODI4OTIzfQ.4Ftr1fhKAjRmYYyXmwsmtm10f6fI0gvlFqoh8N__Nzw",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU4NTgyOTkzMCwiZXhwIjoxNTg1ODMzNTMwfQ.p9xRtXtO-CYp-I0cp2ouA4R43xa5dPte0-K0x1qDxSk",
 								"type": "text"
 							}
 						],
@@ -383,7 +383,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"groupId\": 1,\n\t\"usersIds\": [1, 2, 3]\n}"
+							"raw": "{\n\t\"groupId\": 1,\n\t\"usersIds\": [4]\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/userGroup",
