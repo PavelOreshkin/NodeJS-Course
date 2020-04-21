@@ -14,14 +14,13 @@ export default class Fakexpress {
         json: jest.fn().mockImplementation((param) => {
             this.responseData = param;
             return this.res;
-        }),
-        cookie: jest.fn(),
-        clearCookie: jest.fn()
+        })
     }
 
     req: any;
     responseData: any;
     next: any = (error: any) => {
-        this.responseData = error.message;
+        this.responseData = error;
+        this.res.statusCode = 400;
     };
 }
